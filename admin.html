@@ -71,6 +71,8 @@
     .btn-approve:hover:not(:disabled) { background:#006400; color:#fff; }
     .btn-sold { background:rgba(0,71,171,0.2); color:#4d9fff; border:1px solid rgba(0,71,171,0.4); }
     .btn-sold:hover:not(:disabled) { background:var(--blue); color:#fff; }
+    .btn-reset { background:rgba(255,165,0,0.15); color:orange; border:1px solid rgba(255,165,0,0.4); }
+    .btn-reset:hover:not(:disabled) { background:rgba(255,165,0,0.4); color:#fff; }
     .btn:disabled { opacity:0.3; cursor:not-allowed; }
     .empty { text-align:center; padding:70px 20px; color:rgba(255,255,255,0.3); }
     .empty .icon { font-size:48px; margin-bottom:12px; }
@@ -177,12 +179,17 @@
         <td><div class="action-btns">
           <button class="btn btn-approve" onclick="approve('${t._id}')" ${t.status!=='Pending'?'disabled':''}>✅ Approve</button>
           <button class="btn btn-sold" onclick="markSold('${t._id}')" ${t.status==='Sold'?'disabled':''}>🎟 Sold</button>
+          <button class="btn btn-reset" onclick="resetPending('${t._id}')" ${t.status==='Pending'?'disabled':''}>↩ Reset</button>
         </div></td>
       </tr>`).join('');
   }
 
   async function approve(id) { if((await fetch('/approve/'+id,{method:'POST'})).ok) loadDashboard(); }
   async function markSold(id) { if((await fetch('/mark-sold/'+id,{method:'POST'})).ok) loadDashboard(); }
+  async function resetPending(id) {
+    if(!confirm('Reset this ticket to Pending? This allows re-sending the email.')) return;
+    if((await fetch('/reset-pending/'+id,{method:'POST'})).ok) loadDashboard();
+  }
 
   loadDashboard();
   setInterval(loadDashboard, 15000);
