@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tourist Kosgei Football League — Official Tickets 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --blue:#0047AB; --red:#CC0000; --green:#006400; --gold:#FFD700; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Open Sans',sans-serif; background:#050d1a; color:#fff; overflow-x:hidden; }
+    .stripe { height:5px; background:linear-gradient(90deg,var(--blue),#fff,var(--red),var(--green)); }
+    .hero { position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:60px 20px 40px; overflow:hidden; }
+    .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 20% 50%,rgba(0,71,171,0.35) 0%,transparent 60%), radial-gradient(ellipse at 80% 50%,rgba(204,0,0,0.35) 0%,transparent 60%), radial-gradient(ellipse at 50% 100%,rgba(0,100,0,0.25) 0%,transparent 50%); z-index:0; }
+    .grid-bg { position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px); background-size:60px 60px; z-index:0; }
+    .hero-content { position:relative; z-index:1; max-width:780px; width:100%; }
+    .badge { display:inline-block; background:linear-gradient(135deg,var(--blue),var(--green)); color:#fff; font-family:'Montserrat',sans-serif; font-weight:700; font-size:11px; letter-spacing:3px; text-transform:uppercase; padding:8px 22px; border-radius:50px; margin-bottom:22px; animation:fadeDown 0.7s ease both; }
+    h1 { font-family:'Bebas Neue',cursive; font-size:clamp(44px,9vw,96px); line-height:0.92; letter-spacing:2px; margin-bottom:12px; animation:fadeDown 0.7s 0.15s ease both; }
+    .l1 { color:#fff; }
+    .l2 { background:linear-gradient(90deg,var(--blue),var(--red),var(--green)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .l3 { color:var(--gold); }
+    .sub { font-family:'Montserrat',sans-serif; font-weight:600; font-size:14px; letter-spacing:2.5px; color:rgba(255,255,255,0.6); margin-bottom:32px; text-transform:uppercase; animation:fadeDown 0.7s 0.3s ease both; }
+    .pills { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:45px; animation:fadeDown 0.7s 0.4s ease both; }
+    .pill { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.13); backdrop-filter:blur(10px); padding:10px 18px; border-radius:50px; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:600; display:flex; align-items:center; gap:7px; }
+    .tickets-wrap { width:100%; animation:fadeUp 0.7s 0.5s ease both; }
+    .section-title { font-family:'Bebas Neue',cursive; font-size:30px; letter-spacing:3px; color:var(--gold); margin-bottom:22px; }
+    .ticket-cards { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:30px; }
+    @media(max-width:480px){.ticket-cards{grid-template-columns:1fr;}}
+    .t-card { position:relative; border-radius:16px; padding:28px 22px; cursor:pointer; transition:transform 0.3s,box-shadow 0.3s; overflow:hidden; }
+    .t-card:hover { transform:translateY(-5px); }
+    .t-card.reg { background:linear-gradient(135deg,#0047AB,#002d6e); border:2px solid rgba(255,255,255,0.15); box-shadow:0 8px 35px rgba(0,71,171,0.35); }
+    .t-card.vip { background:linear-gradient(135deg,#7a0000,#CC0000,#e05c00); border:2px solid rgba(255,215,0,0.4); box-shadow:0 8px 35px rgba(204,0,0,0.35); }
+    .t-card.selected { transform:translateY(-8px) scale(1.03); border-color:var(--gold) !important; box-shadow:0 20px 55px rgba(255,215,0,0.25) !important; }
+    .check { position:absolute; top:12px; left:12px; width:22px; height:22px; background:var(--gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; color:#000; font-weight:900; opacity:0; transition:opacity 0.3s; }
+    .t-card.selected .check { opacity:1; }
+    .vip-tag { position:absolute; top:12px; right:12px; background:var(--gold); color:#000; font-family:'Montserrat',sans-serif; font-weight:900; font-size:9px; padding:4px 10px; border-radius:50px; letter-spacing:1px; }
+    .t-type { font-family:'Bebas Neue',cursive; font-size:26px; letter-spacing:2px; margin-bottom:4px; }
+    .t-price { font-family:'Bebas Neue',cursive; font-size:48px; color:var(--gold); line-height:1; margin-bottom:8px; }
+    .t-price sup { font-size:16px; vertical-align:top; margin-top:8px; display:inline-block; }
+    .t-perks { font-size:11px; color:rgba(255,255,255,0.7); font-family:'Montserrat',sans-serif; }
+    .form-box { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); backdrop-filter:blur(20px); border-radius:18px; padding:32px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+    @media(max-width:480px){.form-row{grid-template-columns:1fr;}}
+    .fg { display:flex; flex-direction:column; gap:7px; }
+    .fg label { font-family:'Montserrat',sans-serif; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.55); }
+    .fg input, .fg select { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.13); color:#fff; padding:13px 15px; border-radius:10px; font-family:'Open Sans',sans-serif; font-size:14px; outline:none; transition:border-color 0.25s; }
+    .fg input:focus, .fg select:focus { border-color:var(--gold); }
+    .fg select option { background:#0a1628; }
+    .mpesa-note { background:linear-gradient(135deg,rgba(0,100,0,0.25),rgba(0,71,171,0.25)); border:1px solid rgba(0,200,0,0.25); border-radius:12px; padding:15px 18px; margin-bottom:18px; font-family:'Montserrat',sans-serif; font-size:13px; text-align:left; line-height:1.6; }
+    .mpesa-note strong { color:var(--gold); display:block; margin-bottom:4px; }
+    .price-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; padding:13px 18px; background:rgba(255,215,0,0.08); border:1px solid rgba(255,215,0,0.25); border-radius:10px; font-family:'Montserrat',sans-serif; }
+    .price-row .lbl { font-size:12px; color:rgba(255,255,255,0.6); }
+    .price-row .amt { font-size:22px; font-weight:900; color:var(--gold); }
+    .submit-btn { width:100%; padding:17px; background:linear-gradient(135deg,var(--blue),var(--red)); color:#fff; border:none; border-radius:12px; font-family:'Bebas Neue',cursive; font-size:21px; letter-spacing:3px; cursor:pointer; transition:opacity 0.3s; }
+    .submit-btn:hover { opacity:0.88; }
+    .submit-btn:disabled { opacity:0.5; cursor:not-allowed; }
+    .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:100; align-items:center; justify-content:center; padding:20px; }
+    .overlay.show { display:flex; }
+    .success-box { background:linear-gradient(135deg,#0a1628,#0d2137); border:2px solid var(--green); border-radius:18px; padding:50px 38px; text-align:center; max-width:440px; width:100%; animation:popIn 0.45s ease; }
+    .s-icon { font-size:58px; margin-bottom:18px; }
+    .success-box h2 { font-family:'Bebas Neue',cursive; font-size:34px; color:#66cc66; letter-spacing:3px; margin-bottom:12px; }
+    .success-box p { font-family:'Montserrat',sans-serif; font-size:13px; color:rgba(255,255,255,0.7); line-height:1.7; margin-bottom:22px; }
+    .ok-btn { background:var(--green); color:#fff; border:none; padding:13px 40px; border-radius:50px; font-family:'Bebas Neue',cursive; font-size:18px; letter-spacing:2px; cursor:pointer; }
+    footer { text-align:center; padding:28px; font-family:'Montserrat',sans-serif; font-size:12px; color:rgba(255,255,255,0.25); border-top:1px solid rgba(255,255,255,0.05); }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes popIn { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+  </style>
+</head>
+<body>
+<div class="stripe"></div>
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="hero-content">
+    <div class="badge">🏆 Official Ticket Portal · 2026</div>
+    <h1>
+      <div class="l1">Tourist Kosgei</div>
+      <div class="l2">Football League</div>
+      <div class="l3">Tournament 2026</div>
+    </h1>
+    <p class="sub">Secure Your Seat — Be Part of History</p>
+    <div class="pills">
+      <div class="pill">📅 Saturday, 7th March 2026</div>
+      <div class="pill">⏰ From 10:00 AM</div>
+      <div class="pill">📍 University Field</div>
+      <div class="pill">📲 M-Pesa: 0795043636</div>
+    </div>
+
+    <div class="tickets-wrap">
+      <div class="section-title">Select Your Ticket</div>
+      <div class="ticket-cards">
+        <div class="t-card reg" id="regCard" onclick="selectType('Regular',200)">
+          <div class="check">✓</div>
+          <div class="t-type">Regular</div>
+          <div class="t-price"><sup>KES </sup>200</div>
+          <div class="t-perks">General Admission · Match Entry</div>
+        </div>
+        <div class="t-card vip" id="vipCard" onclick="selectType('VIP',500)">
+          <div class="check">✓</div>
+          <div class="vip-tag">VIP</div>
+          <div class="t-type">VIP</div>
+          <div class="t-price"><sup>KES </sup>500</div>
+          <div class="t-perks">Premium Seating · Priority Entry</div>
+        </div>
+      </div>
+
+      <div class="form-box">
+        <div class="form-row">
+          <div class="fg"><label>Full Name</label><input type="text" id="name" placeholder="e.g. John Kamau"></div>
+          <div class="fg"><label>Email Address</label><input type="email" id="email" placeholder="your@email.com"></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Phone Number</label><input type="tel" id="phone" placeholder="07XXXXXXXX"></div>
+          <div class="fg"><label>Ticket Type</label>
+            <select id="ticketType" onchange="onSelectChange()">
+              <option value="Regular">Regular — KES 200</option>
+              <option value="VIP">VIP — KES 500</option>
+            </select>
+          </div>
+        </div>
+        <div class="mpesa-note">
+          <strong>📲 How to Pay</strong>
+          Send KES <strong id="payAmt">200</strong> via M-Pesa to <strong>0795043636</strong> before submitting. Your ticket will be emailed to you once the admin confirms your payment.
+        </div>
+        <div class="price-row">
+          <div class="lbl">Total Amount</div>
+          <div class="amt">KES <span id="totalAmt">200</span></div>
+        </div>
+        <button class="submit-btn" id="submitBtn" onclick="submitTicket()">🎟 Submit Ticket Request</button>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="stripe"></div>
+<footer>© 2026 Tourist Kosgei Football League · University Field · Saturday 7th March 2026</footer>
+
+<div class="overlay" id="overlay">
+  <div class="success-box">
+    <div class="s-icon">🎉</div>
+    <h2>Request Submitted!</h2>
+    <p>Your ticket request has been received. Once the admin confirms your M-Pesa payment, your ticket with QR code will be sent directly to your email.</p>
+    <p style="color:var(--gold);font-weight:700;font-size:14px;">📧 Check your inbox after confirmation!</p>
+    <button class="ok-btn" onclick="document.getElementById('overlay').classList.remove('show')">Got It!</button>
+  </div>
+</div>
+
+<script>
+  let selType = 'Regular', selPrice = 200;
+
+  function selectType(type, price) {
+    selType = type; selPrice = price;
+    document.getElementById('ticketType').value = type;
+    document.getElementById('payAmt').textContent = price;
+    document.getElementById('totalAmt').textContent = price;
+    document.getElementById('regCard').classList.toggle('selected', type === 'Regular');
+    document.getElementById('vipCard').classList.toggle('selected', type === 'VIP');
+  }
+
+  function onSelectChange() {
+    const t = document.getElementById('ticketType').value;
+    selectType(t, t === 'VIP' ? 500 : 200);
+  }
+
+  selectType('Regular', 200);
+
+  async function submitTicket() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const ticketType = document.getElementById('ticketType').value;
+    if (!name || !email || !phone) { alert('Please fill in all fields.'); return; }
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true; btn.textContent = 'Submitting...';
+    try {
+      const res = await fetch('/buy-ticket', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, ticketType })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        document.getElementById('overlay').classList.add('show');
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('phone').value = '';
+      } else { alert(data.message || 'Error. Please try again.'); }
+    } catch(e) { alert('Network error. Please try again.'); }
+    btn.disabled = false; btn.textContent = '🎟 Submit Ticket Request';
+  }
+</script>
+</body>
+</html>

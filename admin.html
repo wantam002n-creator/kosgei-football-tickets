@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Tourist Kosgei Football League</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --blue:#0047AB; --red:#CC0000; --green:#006400; --gold:#FFD700; --bg:#060e1a; --card:#0d1f35; --border:rgba(255,255,255,0.08); }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Open Sans',sans-serif; background:var(--bg); color:#fff; min-height:100vh; }
+    .stripe { height:5px; background:linear-gradient(90deg,var(--blue),#fff,var(--red),var(--green)); }
+    header { background:linear-gradient(135deg,#0a1628,#0d2137); border-bottom:1px solid var(--border); padding:18px 40px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    .logo { font-family:'Bebas Neue',cursive; font-size:22px; letter-spacing:2px; }
+    .logo span { color:var(--gold); }
+    .header-right { display:flex; align-items:center; gap:12px; }
+    .live-badge { background:rgba(0,200,0,0.15); border:1px solid rgba(0,200,0,0.4); color:#00cc00; font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; padding:6px 14px; border-radius:50px; display:flex; align-items:center; gap:6px; }
+    .live-dot { width:8px; height:8px; background:#00cc00; border-radius:50%; animation:pulse 1.5s infinite; }
+    .refresh-btn { background:rgba(255,255,255,0.08); border:1px solid var(--border); color:#fff; padding:8px 16px; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:600; cursor:pointer; }
+    .refresh-btn:hover { background:rgba(255,255,255,0.15); }
+    main { padding:30px 40px; max-width:1400px; margin:0 auto; }
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:18px; margin-bottom:30px; }
+    .stat-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:22px 18px; position:relative; overflow:hidden; }
+    .stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+    .stat-card.gold::before { background:var(--gold); }
+    .stat-card.blue::before { background:var(--blue); }
+    .stat-card.green::before { background:var(--green); }
+    .stat-card.red::before { background:var(--red); }
+    .stat-card.purple::before { background:#8B00FF; }
+    .stat-icon { font-size:26px; margin-bottom:10px; }
+    .stat-value { font-family:'Bebas Neue',cursive; font-size:40px; line-height:1; margin-bottom:4px; }
+    .stat-card.gold .stat-value { color:var(--gold); }
+    .stat-card.blue .stat-value { color:#4d9fff; }
+    .stat-card.green .stat-value { color:#66cc66; }
+    .stat-card.red .stat-value { color:#ff6666; }
+    .stat-card.purple .stat-value { color:#cc99ff; }
+    .stat-label { font-family:'Montserrat',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.45); }
+    .capacity-section { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:22px 28px; margin-bottom:28px; }
+    .cap-header { display:flex; justify-content:space-between; margin-bottom:12px; }
+    .cap-title { font-family:'Montserrat',sans-serif; font-weight:700; font-size:13px; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.6); }
+    .cap-pct { font-family:'Bebas Neue',cursive; font-size:22px; color:var(--gold); }
+    .cap-bar { height:10px; background:rgba(255,255,255,0.1); border-radius:50px; overflow:hidden; }
+    .cap-fill { height:100%; border-radius:50px; background:linear-gradient(90deg,var(--blue),var(--green)); transition:width 1s ease; }
+    .cap-labels { display:flex; justify-content:space-between; margin-top:8px; font-family:'Montserrat',sans-serif; font-size:11px; color:rgba(255,255,255,0.3); }
+    .filter-bar { display:flex; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+    .filter-btn { background:rgba(255,255,255,0.06); border:1px solid var(--border); color:rgba(255,255,255,0.6); padding:7px 16px; border-radius:50px; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+    .filter-btn.active, .filter-btn:hover { background:var(--blue); border-color:var(--blue); color:#fff; }
+    .search-box { margin-left:auto; background:rgba(255,255,255,0.06); border:1px solid var(--border); color:#fff; padding:8px 14px; border-radius:8px; font-family:'Open Sans',sans-serif; font-size:13px; outline:none; width:210px; }
+    .search-box:focus { border-color:var(--gold); }
+    .search-box::placeholder { color:rgba(255,255,255,0.3); }
+    .table-container { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+    table { width:100%; border-collapse:collapse; }
+    thead { background:linear-gradient(135deg,rgba(0,71,171,0.25),rgba(0,100,0,0.15)); }
+    th { padding:14px 18px; font-family:'Montserrat',sans-serif; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.45); text-align:left; border-bottom:1px solid var(--border); }
+    td { padding:13px 18px; font-size:13px; border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:middle; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:rgba(255,255,255,0.02); }
+    .ticket-code { font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; color:var(--gold); letter-spacing:1px; }
+    .buyer-name { font-weight:600; font-size:14px; }
+    .buyer-sub { font-size:11px; color:rgba(255,255,255,0.4); margin-top:2px; }
+    .type-badge { display:inline-block; padding:3px 10px; border-radius:50px; font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; }
+    .type-Regular { background:rgba(0,71,171,0.25); color:#4d9fff; border:1px solid rgba(0,71,171,0.4); }
+    .type-VIP { background:rgba(204,0,0,0.2); color:#ff9999; border:1px solid rgba(204,0,0,0.4); }
+    .status-badge { display:inline-flex; align-items:center; gap:4px; padding:4px 11px; border-radius:50px; font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; }
+    .s-Pending { background:rgba(255,165,0,0.15); color:orange; border:1px solid rgba(255,165,0,0.3); }
+    .s-Approved { background:rgba(0,150,0,0.15); color:#66cc66; border:1px solid rgba(0,150,0,0.3); }
+    .s-Sold { background:rgba(0,71,171,0.2); color:#4d9fff; border:1px solid rgba(0,71,171,0.4); }
+    .action-btns { display:flex; gap:6px; flex-wrap:wrap; }
+    .btn { padding:6px 12px; border:none; border-radius:6px; font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; cursor:pointer; transition:all 0.2s; }
+    .btn-approve { background:rgba(0,150,0,0.2); color:#66cc66; border:1px solid rgba(0,150,0,0.4); }
+    .btn-approve:hover:not(:disabled) { background:#006400; color:#fff; }
+    .btn-sold { background:rgba(0,71,171,0.2); color:#4d9fff; border:1px solid rgba(0,71,171,0.4); }
+    .btn-sold:hover:not(:disabled) { background:var(--blue); color:#fff; }
+    .btn:disabled { opacity:0.3; cursor:not-allowed; }
+    .empty { text-align:center; padding:70px 20px; color:rgba(255,255,255,0.3); }
+    .empty .icon { font-size:48px; margin-bottom:12px; }
+    .empty p { font-family:'Montserrat',sans-serif; font-size:13px; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    @media(max-width:768px){ main{padding:18px 15px;} header{padding:14px 18px;} }
+  </style>
+</head>
+<body>
+<div class="stripe"></div>
+<header>
+  <div class="logo">Tourist Kosgei <span>Football League</span> · Admin</div>
+  <div class="header-right">
+    <div class="live-badge"><div class="live-dot"></div> LIVE</div>
+    <button class="refresh-btn" onclick="loadDashboard()">↻ Refresh</button>
+    <a href="/" style="color:rgba(255,255,255,0.4);font-size:12px;font-family:'Montserrat',sans-serif;text-decoration:none;">← Main Site</a>
+  </div>
+</header>
+<main>
+  <div class="stats-grid">
+    <div class="stat-card gold"><div class="stat-icon">💰</div><div class="stat-value" id="revenue">0</div><div class="stat-label">Total Revenue (KES)</div></div>
+    <div class="stat-card blue"><div class="stat-icon">🎟</div><div class="stat-value" id="totalTickets">0</div><div class="stat-label">Total Tickets</div></div>
+    <div class="stat-card green"><div class="stat-icon">✅</div><div class="stat-value" id="soldCount">0</div><div class="stat-label">Tickets Sold</div></div>
+    <div class="stat-card blue"><div class="stat-icon">🪑</div><div class="stat-value" id="regularCount">0</div><div class="stat-label">Regular Tickets</div></div>
+    <div class="stat-card red"><div class="stat-icon">⭐</div><div class="stat-value" id="vipCount">0</div><div class="stat-label">VIP Tickets</div></div>
+    <div class="stat-card purple"><div class="stat-icon">🏟</div><div class="stat-value" id="remaining">2000</div><div class="stat-label">Tickets Remaining</div></div>
+  </div>
+  <div class="capacity-section">
+    <div class="cap-header">
+      <div class="cap-title">Stadium Capacity — 2,000 Seats</div>
+      <div class="cap-pct" id="capPct">0%</div>
+    </div>
+    <div class="cap-bar"><div class="cap-fill" id="capFill" style="width:0%"></div></div>
+    <div class="cap-labels"><span>0</span><span>500</span><span>1,000</span><span>1,500</span><span>2,000</span></div>
+  </div>
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="setFilter('All',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('Pending',this)">⏳ Pending</button>
+    <button class="filter-btn" onclick="setFilter('Approved',this)">✅ Approved</button>
+    <button class="filter-btn" onclick="setFilter('Sold',this)">🎟 Sold</button>
+    <input class="search-box" id="searchBox" placeholder="🔍 Search name or email..." oninput="renderTable()">
+  </div>
+  <div class="table-container">
+    <table>
+      <thead><tr><th>#</th><th>Ticket Code</th><th>Buyer</th><th>Phone</th><th>Type</th><th>Amount</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+      <tbody id="ticketsBody"><tr><td colspan="9"><div class="empty"><div class="icon">⏳</div><p>Loading...</p></div></td></tr></tbody>
+    </table>
+  </div>
+</main>
+<script>
+  let allTickets = [], currentFilter = 'All';
+  const CAPACITY = 2000;
+
+  async function loadDashboard() {
+    try {
+      const res = await fetch('/tickets');
+      allTickets = await res.json();
+      updateStats(); renderTable();
+    } catch(e) { console.error(e); }
+  }
+
+  function updateStats() {
+    const sold = allTickets.filter(t => t.status === 'Sold');
+    const regular = allTickets.filter(t => t.ticketType === 'Regular');
+    const vip = allTickets.filter(t => t.ticketType === 'VIP');
+    const revenue = sold.reduce((s, t) => s + (t.amount || 0), 0);
+    const pct = Math.min(100, Math.round((sold.length / CAPACITY) * 100));
+    document.getElementById('revenue').textContent = revenue.toLocaleString();
+    document.getElementById('totalTickets').textContent = allTickets.length;
+    document.getElementById('soldCount').textContent = sold.length;
+    document.getElementById('regularCount').textContent = regular.length;
+    document.getElementById('vipCount').textContent = vip.length;
+    document.getElementById('remaining').textContent = CAPACITY - sold.length;
+    document.getElementById('capPct').textContent = pct + '%';
+    document.getElementById('capFill').style.width = pct + '%';
+  }
+
+  function setFilter(f, btn) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTable();
+  }
+
+  function renderTable() {
+    const search = document.getElementById('searchBox').value.toLowerCase();
+    const filtered = allTickets.filter(t => {
+      const mf = currentFilter === 'All' || t.status === currentFilter;
+      const ms = !search || t.name.toLowerCase().includes(search) || t.email.toLowerCase().includes(search) || (t.ticketCode||'').toLowerCase().includes(search);
+      return mf && ms;
+    });
+    const tbody = document.getElementById('ticketsBody');
+    if (!filtered.length) { tbody.innerHTML = `<tr><td colspan="9"><div class="empty"><div class="icon">🎟</div><p>No tickets found</p></div></td></tr>`; return; }
+    tbody.innerHTML = filtered.map((t, i) => `
+      <tr>
+        <td style="color:rgba(255,255,255,0.3);font-size:11px;">${i+1}</td>
+        <td><div class="ticket-code">${t.ticketCode||'—'}</div></td>
+        <td><div class="buyer-name">${t.name}</div><div class="buyer-sub">${t.email}</div></td>
+        <td style="font-size:12px;color:rgba(255,255,255,0.5);">${t.phone||'—'}</td>
+        <td><span class="type-badge type-${t.ticketType||'Regular'}">${t.ticketType||'Regular'}</span></td>
+        <td style="font-weight:700;color:var(--gold);">KES ${(t.amount||0).toLocaleString()}</td>
+        <td><span class="status-badge s-${t.status}">${t.status}</span></td>
+        <td style="font-size:11px;color:rgba(255,255,255,0.4);">${new Date(t.createdAt||Date.now()).toLocaleDateString()}</td>
+        <td><div class="action-btns">
+          <button class="btn btn-approve" onclick="approve('${t._id}')" ${t.status!=='Pending'?'disabled':''}>✅ Approve</button>
+          <button class="btn btn-sold" onclick="markSold('${t._id}')" ${t.status==='Sold'?'disabled':''}>🎟 Sold</button>
+        </div></td>
+      </tr>`).join('');
+  }
+
+  async function approve(id) { if((await fetch('/approve/'+id,{method:'POST'})).ok) loadDashboard(); }
+  async function markSold(id) { if((await fetch('/mark-sold/'+id,{method:'POST'})).ok) loadDashboard(); }
+
+  loadDashboard();
+  setInterval(loadDashboard, 15000);
+</script>
+</body>
+</html>
