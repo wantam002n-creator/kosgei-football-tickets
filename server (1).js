@@ -46,7 +46,6 @@ function sendBrevoEmail(toEmail, toName, subject, htmlContent) {
       subject: subject,
       htmlContent: htmlContent
     });
-
     const options = {
       hostname: "api.brevo.com",
       path: "/v3/smtp/email",
@@ -57,7 +56,6 @@ function sendBrevoEmail(toEmail, toName, subject, htmlContent) {
         "Content-Length": Buffer.byteLength(data)
       }
     };
-
     const req = https.request(options, (res) => {
       let body = "";
       res.on("data", chunk => body += chunk);
@@ -69,7 +67,6 @@ function sendBrevoEmail(toEmail, toName, subject, htmlContent) {
         }
       });
     });
-
     req.on("error", reject);
     req.write(data);
     req.end();
@@ -191,6 +188,15 @@ app.post("/mark-sold/:id", async (req, res) => {
     res.json({ message: "Ticket marked as sold." });
   } catch (err) {
     res.status(500).json({ message: "Error updating ticket." });
+  }
+});
+
+app.post("/reset-pending/:id", async (req, res) => {
+  try {
+    await Ticket.findByIdAndUpdate(req.params.id, { status: "Pending" });
+    res.json({ message: "Ticket reset to pending." });
+  } catch (err) {
+    res.status(500).json({ message: "Error resetting ticket." });
   }
 });
 
